@@ -117,7 +117,7 @@ man/ciphershed.1: man/ciphershed.pod
 
 $(APPNAME): $(LIBS) $(OBJS)
 	@echo Linking $@
-	$(CXX) -o $(APPNAME) $(LFLAGS) $(OBJS) $(LIBS) $(FUSE_LIBS) $(WX_LIBS)
+	$(CXX) -o $(APPNAME) $(LFLAGS) $(OBJS) $(LIBS) $(FUSE_LIBS) $(WX_LIBS) $(shell pkg-config --libs appindicator-0.1)
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 ifndef NOSTRIP

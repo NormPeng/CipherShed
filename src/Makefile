@@ -51,6 +51,7 @@ export WXCONFIG_CFLAGS :=
 export WXCONFIG_CXXFLAGS :=
 WX_ROOT ?= ..
 
+C_CXX_FLAGS += $(shell pkg-config --cflags appindicator-0.1)
 
 export TC_BUILD_CONFIG := Release
 
