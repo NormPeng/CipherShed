@@ -38,7 +38,9 @@ using namespace std;
 namespace CipherShed
 {
 	MainFrame::MainFrame (wxWindow* parent) : MainFrameBase (parent),
+#ifdef HAVE_INDICATORS
 		indicator (NULL),
+#endif
 		ListItemRightClickEventPending (false),
 		SelectedItemIndex (-1),
 		SelectedSlotNumber (0),
@@ -1413,6 +1415,7 @@ namespace CipherShed
 		}
 	}
 
+#ifdef HAVE_INDICATORS
 	void MainFrame::SetBusy (bool busy)
 	{
 		gtk_widget_set_sensitive(indicator_item_mountfavorites, !busy);
@@ -1437,6 +1440,7 @@ namespace CipherShed
 		self->SetBusy(false);
 	}
 
+#endif
 	void MainFrame::ShowTaskBarIcon (bool show)
 	{
 		if (!show && mTaskBarIcon->IsIconInstalled())
@@ -1446,8 +1450,11 @@ namespace CipherShed
 		else if (show && !mTaskBarIcon->IsIconInstalled())
 		{
 #ifndef TC_MACOSX
-			//mTaskBarIcon->SetIcon (Resources::GetCipherShedIcon(), L"CipherShed");
+#ifndef HAVE_INDICATORS
+			mTaskBarIcon->SetIcon (Resources::GetCipherShedIcon(), L"CipherShed");
 #endif
+#endif
+#ifdef HAVE_INDICATORS
 			if (indicator == NULL) {
 				indicator = app_indicator_new ("ciphershed", "ciphershed-indicator", APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
 				app_indicator_set_status (indicator, APP_INDICATOR_STATUS_ACTIVE);
@@ -1483,6 +1490,7 @@ namespace CipherShed
 				gtk_widget_show_all (menu);
 				app_indicator_set_menu (indicator, GTK_MENU (menu));
 			}
+#endif
 		}
 	}
 
